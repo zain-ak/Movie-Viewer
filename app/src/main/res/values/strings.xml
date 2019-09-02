@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Movie Viewer</string>
+
+<!--    API Value & pre-URLS-->
+
+
+<!--    Placeholder Values     -->
+    <string name="movie_title_placeholder">Movie Title</string>
+    <string name="movie_year_placeholder">XXXX</string>
+    <string name="movie_rating">7.5</string>
+
+<!--    Content Descriptions   -->
+    <string name="movie_item_background_image_cd">Background image for a movie item in a list; movie
+    poster</string>
+    <string name="movie_item_rating_image_cd">Image for rating</string>
+    <string name="movie_item_favorite_image_cd">Image for favorite</string>
 </resources>
