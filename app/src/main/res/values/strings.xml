@@ -2,6 +2,7 @@
     <string name="app_name">Movie Viewer</string>
 
 <!--    API Value & pre-URLS-->
+    <string name="api_key">eecdd7e4d2f0d8a98f7b97e561b0eb1c</string>
 
 
 <!--    Placeholder Values     -->

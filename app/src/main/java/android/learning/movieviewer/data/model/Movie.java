@@ -5,31 +5,31 @@ import com.google.gson.annotations.SerializedName;
 
 public class Movie {
     @SerializedName("id") @Expose
-    private final String id;
+    private String id;
 
     @SerializedName("original_title") @Expose
-    private final String name;
+    private String name;
 
     @SerializedName("overview") @Expose
-    private final String description;
+    private String description;
 
     @SerializedName("poster_path") @Expose
-    private final String posterImageURL;
+    private String posterImageURL;
 
     @SerializedName("imdb_id") @Expose
-    private final String imdbID;
+    private String imdbID;
 
     @SerializedName("release_date") @Expose
-    private final String releaseDate;
+    private String releaseDate;
 
     @SerializedName("runtime") @Expose
-    private final String runtime;
+    private String runtime;
 
     @SerializedName("vote_average") @Expose
-    private final String rating;
+    private String rating;
 
 
-    private Movie(String id, String name, String description, String posterImageURL, String imdbID,
+    public Movie(String id, String name, String description, String posterImageURL, String imdbID,
                  String releaseDate, String runtime, String rating) {
         this.id = id;
         this.name = name;
@@ -39,5 +39,34 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.runtime = runtime;
         this.rating = rating;
+    }
+
+    public Movie (String name, String releaseDate) {
+        this.name = name;
+        this.releaseDate = releaseDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public String getRating() {
+        return this.rating;
+    }
+
+    public String getImage() {
+        return this.posterImageURL;
     }
 }
