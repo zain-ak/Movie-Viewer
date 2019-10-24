@@ -61,10 +61,13 @@ public class MainActivity extends AppCompatActivity {
         mPopularFAB = findViewById(R.id.fab_most_popular);
         mGrossingFAB = findViewById(R.id.fab_highest_grossing);
         ratedLinear = findViewById(R.id.linear_rated);
+        ratedLinear.bringToFront();
         ratedLinear.setVisibility(View.INVISIBLE);
         popularLinear = findViewById(R.id.linear_popular);
+        popularLinear.bringToFront();
         popularLinear.setVisibility(View.INVISIBLE);
         grossingLinear = findViewById(R.id.linear_grossing);
+        grossingLinear.bringToFront();
         grossingLinear.setVisibility(View.INVISIBLE);
 
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -78,28 +81,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        mRatedFAB.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //loadBestRatedMovies();
-//            }
-//        });
-//
-//        mPopularFAB.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d("Popular", "Function Running");
-//                currentPage = 0;
-//                loadPopularMovies(currentPage);
-//            }
-//        });
-//
-//        mGrossingFAB.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//               // loadHighestGrossingMovies();
-//            }
-//        });
+        mRatedFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //loadBestRatedMovies();
+            }
+        });
+
+        mPopularFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Popular", "Function Running");
+                currentPage = 0;
+                loadPopularMovies(currentPage);
+            }
+        });
+
+        mGrossingFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // loadHighestGrossingMovies();
+            }
+        });
 
         moviesRepository = MoviesRepository.getInstance();
 
@@ -114,20 +117,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                //Scrolling down
                 if (dy > 0 && mFloatingActionButton.getVisibility() == View.VISIBLE) {
                     AlphaAnimation animation1 = new AlphaAnimation(1, 0);
                     animation1.setDuration(250);
                     animation1.setStartOffset(0);
                     animation1.setFillAfter(true);
                     mFloatingActionButton.setAnimation(animation1);
+                    grossingLinear.setAnimation(animation1);
+                    ratedLinear.setAnimation(animation1);
+                    popularLinear.setAnimation(animation1);
                     mFloatingActionButton.setVisibility(View.INVISIBLE);
-                } else if (dy < 0 && mFloatingActionButton.getVisibility() != View.VISIBLE) {
+                    grossingLinear.setVisibility(View.INVISIBLE);
+                    ratedLinear.setVisibility(View.INVISIBLE);
+                    popularLinear.setVisibility(View.INVISIBLE);
+                } else if (dy < 0 && mFloatingActionButton.getVisibility() != View.VISIBLE) {   //Scrolling up
                     AlphaAnimation animation1 = new AlphaAnimation(0, 1);
                     animation1.setDuration(250);
                     animation1.setStartOffset(0);
                     animation1.setFillAfter(true);
                     mFloatingActionButton.setAnimation(animation1);
+                    grossingLinear.setAnimation(animation1);
+                    ratedLinear.setAnimation(animation1);
+                    popularLinear.setAnimation(animation1);
                     mFloatingActionButton.setVisibility(View.VISIBLE);
+                    grossingLinear.setVisibility(View.VISIBLE);
+                    ratedLinear.setVisibility(View.VISIBLE);
+                    popularLinear.setVisibility(View.VISIBLE);
                 }
 
                 int totalItemCount = manager.getItemCount();
