@@ -3,6 +3,7 @@ package android.learning.movieviewer.data.model;
 import android.content.Context;
 import android.learning.movieviewer.R;
 import android.learning.movieviewer.util.App;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import retrofit2.Call;
@@ -38,15 +39,42 @@ public class MoviesRepository {
         return repository;
     }
 
-    public void getMovies(final OnGetMoviesCallback callback) {
-        api.getBestRated("eecdd7e4d2f0d8a98f7b97e561b0eb1c", LANGUAGE, 1)
+//    public void getBestRatedMovies(final OnGetMoviesCallback callback) {
+//        api.getBestRated("eecdd7e4d2f0d8a98f7b97e561b0eb1c", LANGUAGE, 1)
+//                .enqueue(new Callback<MovieResponse>() {
+//                    @Override
+//                    public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
+//                        if (response.isSuccessful()) {
+//                            MovieResponse moviesResponse = response.body();
+//                            if (moviesResponse != null && moviesResponse.getResults() != null) {
+//                                callback.onSuccess(moviesResponse.getResults());
+//                            } else {
+//                                callback.onError();
+//                            }
+//                        } else {
+//                            callback.onError();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<MovieResponse> call, Throwable t) {
+//                        callback.onError();
+//                    }
+//
+//
+//
+//        });
+//    }
+
+    public void getPopularMovies(int page, final OnGetMoviesCallback callback) {
+        api.getPopularMovies("eecdd7e4d2f0d8a98f7b97e561b0eb1c", LANGUAGE, page)
                 .enqueue(new Callback<MovieResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                         if (response.isSuccessful()) {
                             MovieResponse moviesResponse = response.body();
                             if (moviesResponse != null && moviesResponse.getResults() != null) {
-                                callback.onSuccess(moviesResponse.getResults());
+                                callback.onSuccess( moviesResponse.getPage(), moviesResponse.getResults());
                             } else {
                                 callback.onError();
                             }
@@ -62,6 +90,34 @@ public class MoviesRepository {
 
 
 
-        });
+                });
     }
+
+//    public void getHighestGrossing(final OnGetMoviesCallback callback) {
+//        api.getHighestGrossing("eecdd7e4d2f0d8a98f7b97e561b0eb1c", LANGUAGE, 1)
+//                .enqueue(new Callback<MovieResponse>() {
+//                    @Override
+//                    public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
+//                        if (response.isSuccessful()) {
+//                            MovieResponse moviesResponse = response.body();
+//                            if (moviesResponse != null && moviesResponse.getResults() != null) {
+//                                callback.onSuccess(moviesResponse.getResults());
+//                            } else {
+//                                callback.onError();
+//                            }
+//                        } else {
+//                            callback.onError();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<MovieResponse> call, Throwable t) {
+//                        callback.onError();
+//                    }
+//
+//
+//
+//                });
+//    }
+
 }

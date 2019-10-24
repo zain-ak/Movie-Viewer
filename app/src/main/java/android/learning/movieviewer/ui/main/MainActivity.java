@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -32,24 +33,81 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout ratedLinear = null;
     private LinearLayout popularLinear = null;
     private LinearLayout grossingLinear = null;
-    private Boolean isFABOpen = true;
+    private boolean isFABOpen = false;
 
+    private GridLayoutManager manager = null;
     private MovieAdapter mAdapter = null;
     private RecyclerView movieList = null;
     private MoviesRepository moviesRepository;
+    private boolean isFetchingMovies = false;
+    private int currentPage = 0;
+    private String currentGenre = "popular";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Setup RecyclerView
         movieList = findViewById(R.id.movieListHome);
-        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.fab_sort_by);
-        mRatedFAB = (FloatingActionButton) findViewById(R.id.fab_highest_rated);
-        mPopularFAB = (FloatingActionButton) findViewById(R.id.fab_most_popular);
-        mGrossingFAB = (FloatingActionButton) findViewById(R.id.fab_highest_grossing);
-        ratedLinear = (LinearLayout) findViewById(R.id.linear_rated);
-        popularLinear = (LinearLayout) findViewById(R.id.linear_popular);
-        grossingLinear = (LinearLayout) findViewById(R.id.linear_grossing);
+        manager = new GridLayoutManager(getParent(), 3);
+        movieList.setLayoutManager(manager);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.itemOffset);
+        movieList.addItemDecoration(itemDecoration);
+
+        //Setup FloatingActionButtons & LinearLayouts containing them
+        mFloatingActionButton = findViewById(R.id.fab_sort_by);
+        mRatedFAB = findViewById(R.id.fab_highest_rated);
+        mPopularFAB = findViewById(R.id.fab_most_popular);
+        mGrossingFAB = findViewById(R.id.fab_highest_grossing);
+        ratedLinear = findViewById(R.id.linear_rated);
+        ratedLinear.setVisibility(View.INVISIBLE);
+        popularLinear = findViewById(R.id.linear_popular);
+        popularLinear.setVisibility(View.INVISIBLE);
+        grossingLinear = findViewById(R.id.linear_grossing);
+        grossingLinear.setVisibility(View.INVISIBLE);
+
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+            }
+        });
+
+//        mRatedFAB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //loadBestRatedMovies();
+//            }
+//        });
+//
+//        mPopularFAB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.d("Popular", "Function Running");
+//                currentPage = 0;
+//                loadPopularMovies(currentPage);
+//            }
+//        });
+//
+//        mGrossingFAB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//               // loadHighestGrossingMovies();
+//            }
+//        });
+
+        moviesRepository = MoviesRepository.getInstance();
+
+        setupOnScrollListener();
+        loadPopularMovies(currentPage + 1);
+    }
+
+    private void setupOnScrollListener() {
 
         movieList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @SuppressLint("RestrictedApi")
@@ -71,25 +129,24 @@ public class MainActivity extends AppCompatActivity {
                     mFloatingActionButton.setAnimation(animation1);
                     mFloatingActionButton.setVisibility(View.VISIBLE);
                 }
-            }
-        });
 
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!isFABOpen){
-                    Log.d("eh", "eh");
-                    showFABMenu();
-                }else{
-                    closeFABMenu();
+                int totalItemCount = manager.getItemCount();
+                int visibleItemCount = manager.getChildCount();
+                int firstVisibleItem = manager.findFirstVisibleItemPosition();
+
+                if (firstVisibleItem + visibleItemCount >= totalItemCount / 2) {
+                    if (!isFetchingMovies && currentGenre.equals("popular")) {
+                        loadPopularMovies(currentPage + 1);
+                    }
+//                    if (!isFetchingMovies && currentGenre.equals("rated")) {
+//                        (currentPage + 1);
+//                    }
+//                    if (!isFetchingMovies && currentGenre.equals("grossing")) {
+//                        loadPopularMovies(currentPage + 1);
+//                    }
                 }
             }
         });
-
-        moviesRepository = MoviesRepository.getInstance();
-
-        //loadMovies();
-
     }
 
     private void closeFABMenu() {
@@ -116,25 +173,53 @@ public class MainActivity extends AppCompatActivity {
         animation1.setFillAfter(true);
         ratedLinear.setAnimation(animation1);
         ratedLinear.setVisibility(View.VISIBLE);
-
         popularLinear.setAnimation(animation1);
         popularLinear.setVisibility(View.VISIBLE);
-
         grossingLinear.setAnimation(animation1);
         grossingLinear.setVisibility(View.VISIBLE);
     }
 
 
-    private void loadMovies() {
-        movieList.setLayoutManager(new GridLayoutManager(getParent(), 3));
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.itemOffset);
-        movieList.addItemDecoration(itemDecoration);
+//    private void loadBestRatedMovies() {
+//        movieList.setLayoutManager(new GridLayoutManager(getParent(), 3));
+//        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.itemOffset);
+//        movieList.addItemDecoration(itemDecoration);
+//
+//        moviesRepository.getBestRatedMovies(new OnGetMoviesCallback() {
+//            @Override
+//            public void onSuccess(int page, List<Movie> movies) {
+//                mAdapter = new MovieAdapter(movies, getApplicationContext());
+//                movieList.setAdapter(mAdapter);
+//            }
+//
+//            @Override
+//            public void onError() {
+//                Toast.makeText(MainActivity.this,
+//                        "Error Loading Movies",
+//                        Toast.LENGTH_SHORT)
+//                        .show();
+//            }
+//        });
+//
+//
+//
+//    }
 
-        moviesRepository.getMovies(new OnGetMoviesCallback() {
+    private void loadPopularMovies(int page) {
+        isFetchingMovies = true;
+        moviesRepository.getPopularMovies(page, new OnGetMoviesCallback() {
             @Override
-            public void onSuccess(List<Movie> movies) {
-                mAdapter = new MovieAdapter(movies, getApplicationContext());
-                movieList.setAdapter(mAdapter);
+            public void onSuccess(int page, List<Movie> movies) {
+                if (mAdapter == null) {
+                    mAdapter = new MovieAdapter(movies, getApplicationContext());
+                    movieList.setAdapter(mAdapter);
+                }
+                else {
+                    mAdapter.appendMovies(movies);
+                }
+                currentPage = page;
+                isFetchingMovies = false;
+
             }
 
             @Override
@@ -149,6 +234,29 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+//    private void loadHighestGrossingMovies() {
+//        movieList.setLayoutManager(new GridLayoutManager(getParent(), 3));
+//        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.itemOffset);
+//        movieList.addItemDecoration(itemDecoration);
+//
+//        moviesRepository.getHighestGrossing(1, new OnGetMoviesCallback() {
+//            @Override
+//            public void onSuccess(List<Movie> movies) {
+//                mAdapter = new MovieAdapter(movies, getApplicationContext());
+//                movieList.setAdapter(mAdapter);
+//            }
+//
+//            @Override
+//            public void onError() {
+//                Toast.makeText(MainActivity.this,
+//                        "Error Loading Movies",
+//                        Toast.LENGTH_SHORT)
+//                        .show();
+//            }
+//        });
+//
+//    }
 
 //    static class MoviesAsync extends AsyncTask<Void, Void, Void> {
 //

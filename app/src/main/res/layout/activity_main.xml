@@ -67,15 +67,17 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_most_popular"
+            app:fabCustomSize="40dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_sort_img"
-            android:tint="@color/colorPrimary"
+            android:src="@drawable/ic_format_list_numbered"
+            android:tint="@color/colorSecondaryDark"
             app:backgroundTint="@color/colorPrimary" />
 
     </LinearLayout>
 
     <LinearLayout
+
         android:id="@+id/linear_rated"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -102,8 +104,8 @@
             app:fabCustomSize="40dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_sort_img"
-            android:tint="@color/colorPrimary"
+            android:src="@drawable/ic_star_rate_black"
+            android:tint="@color/colorSecondaryDark"
             app:backgroundTint="@color/colorPrimary" />
 
     </LinearLayout>
@@ -135,22 +137,19 @@
             app:fabCustomSize="40dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/home_toolbar_img"
+            android:src="@drawable/ic_attach_money"
             android:tint="@color/colorSecondaryDark"
             app:backgroundTint="@color/colorPrimary" />
 
     </LinearLayout>
-
-        <!--        android:layout_gravity="bottom|right"-->
-        <!--        android:layout_marginBottom="64dp"-->
-        <!--        android:layout_marginRight="16dp"-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/movieListHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:layout_marginBottom="40dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

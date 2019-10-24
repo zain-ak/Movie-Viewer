@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Movie {
+
     @SerializedName("id") @Expose
     private String id;
 
@@ -39,6 +40,10 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.runtime = runtime;
         this.rating = rating;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Movie (String name, String releaseDate) {

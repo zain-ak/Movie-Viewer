@@ -75,4 +75,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return movies.size();
     }
 
+    public void appendMovies(List<Movie> moviesToAppend) {
+        movies.addAll(moviesToAppend);
+        notifyDataSetChanged();
+    }
+
 }
