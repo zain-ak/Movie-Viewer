@@ -15,4 +15,8 @@
     poster</string>
     <string name="movie_item_rating_image_cd">Image for rating</string>
     <string name="movie_item_favorite_image_cd">Image for favorite</string>
+    <string name="most_popular">Most Popular</string>
+    <string name="highest_rated">Highest Rated</string>
+    <string name="highest_grossing">Highest Grossing</string>
+    <string name="to_be_decided">TBD</string>
 </resources>

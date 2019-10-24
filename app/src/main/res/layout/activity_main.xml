@@ -52,7 +52,8 @@
         app:layout_anchorGravity="center"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="100dp"
-        android:paddingRight="@dimen/fab_shadow_offset"
+        android:paddingEnd="@dimen/fab_shadow_offset"
+        android:paddingStart="0dp"
         android:paddingTop="@dimen/fab_shadow_offset"
         android:clipChildren="false"
         android:clipToPadding="false">
@@ -60,9 +61,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Most Popular"
+            android:text="@string/most_popular"
             android:gravity="center"
-            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:textColor="@color/colorPrimary" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -86,7 +87,8 @@
         app:layout_anchorGravity="center"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="150dp"
-        android:paddingRight="@dimen/fab_shadow_offset"
+        android:paddingEnd="@dimen/fab_shadow_offset"
+        android:paddingStart="0dp"
         android:paddingTop="@dimen/fab_shadow_offset"
         android:clipChildren="false"
         android:clipToPadding="false">
@@ -94,9 +96,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Highest Rated"
+            android:text="@string/highest_rated"
             android:gravity="center"
-            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:textColor="@color/colorPrimary" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -119,7 +121,8 @@
         app:layout_anchorGravity="center"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="200dp"
-        android:paddingRight="@dimen/fab_shadow_offset"
+        android:paddingEnd="@dimen/fab_shadow_offset"
+        android:paddingStart="0dp"
         android:paddingTop="@dimen/fab_shadow_offset"
         android:clipChildren="false"
         android:clipToPadding="false">
@@ -127,9 +130,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Highest Grossing"
+            android:text="@string/highest_grossing"
             android:gravity="center"
-            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:textColor="@color/colorPrimary" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -148,7 +151,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:layout_marginBottom="40dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

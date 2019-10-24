@@ -3,16 +3,13 @@ package android.learning.movieviewer.adapter;
 import android.content.Context;
 import android.learning.movieviewer.R;
 import android.learning.movieviewer.data.model.Movie;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -24,7 +21,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private final Context context;
     private List<Movie> movies;
 
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
+    static class MovieViewHolder extends RecyclerView.ViewHolder {
         private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
         // each data item is just a string in this case
         TextView title;
@@ -32,7 +29,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         TextView rating;
         ImageView background;
 
-        public MovieViewHolder(View v, Context context) {
+        MovieViewHolder(View v, Context context) {
             super(v);
             title = v.findViewById(R.id.movieTitleTextView);
             year = v.findViewById(R.id.movieYearTextView);
@@ -40,15 +37,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             background = v.findViewById(R.id.movieItemBgImageView);
         }
 
-        public void bind(Movie movie) {
+        void bind(Movie movie) {
             title.setText(movie.getName());
-            if(movie.getReleaseDate().isEmpty()) {year.setText("TBD");}
+            if(movie.getReleaseDate().isEmpty()) year.setText(this.itemView.getContext().getString(R.string.to_be_decided));
             else year.setText(movie.getReleaseDate().substring(0,4));
             rating.setText(movie.getRating());
             Glide.with(itemView)
                     .load(IMAGE_BASE_URL + movie.getImage())
                     .placeholder(R.drawable.movie_item_background_placeholder)
                     .fallback(R.drawable.movie_item_background_placeholder)
+                    .centerCrop()
                     .into(background);
         }
     }
@@ -61,7 +59,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @NonNull
     @Override
     public MovieAdapter.MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.movie_list_item, parent, false);
         return new MovieViewHolder(view, context);
     }
 

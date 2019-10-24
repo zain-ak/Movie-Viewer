@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="128dp"
-    android:layout_height="192dp"
-    app:cardCornerRadius="0dp">
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="#FFEB3B" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="128dp"
+        android:layout_height="192dp"
+        android:layout_marginEnd="1dp"
+        android:background="@drawable/movie_list_item_border">
 
         <ImageView
             android:id="@+id/movieItemBgImageView"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/movie_item_background_image_cd"
@@ -100,4 +91,3 @@
             app:layout_constraintStart_toStartOf="@+id/movieItemBgImageView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
