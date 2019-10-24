@@ -84,15 +84,17 @@ public class MainActivity extends AppCompatActivity {
         mRatedFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //loadBestRatedMovies();
+                mAdapter = null;
+                currentPage = 1;
+                loadBestRatedMovies(currentPage);
             }
         });
 
         mPopularFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Popular", "Function Running");
-                currentPage = 0;
+                mAdapter = null;
+                currentPage = 1;
                 loadPopularMovies(currentPage);
             }
         });
@@ -100,7 +102,9 @@ public class MainActivity extends AppCompatActivity {
         mGrossingFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // loadHighestGrossingMovies();
+                mAdapter = null;
+                currentPage = 1;
+                loadHighestGrossingMovies(currentPage);
             }
         });
 
@@ -123,27 +127,20 @@ public class MainActivity extends AppCompatActivity {
                     animation1.setDuration(250);
                     animation1.setStartOffset(0);
                     animation1.setFillAfter(true);
+
+                    if (isFABOpen)
+                        closeFABMenu();
+
                     mFloatingActionButton.setAnimation(animation1);
-                    grossingLinear.setAnimation(animation1);
-                    ratedLinear.setAnimation(animation1);
-                    popularLinear.setAnimation(animation1);
                     mFloatingActionButton.setVisibility(View.INVISIBLE);
-                    grossingLinear.setVisibility(View.INVISIBLE);
-                    ratedLinear.setVisibility(View.INVISIBLE);
-                    popularLinear.setVisibility(View.INVISIBLE);
+
                 } else if (dy < 0 && mFloatingActionButton.getVisibility() != View.VISIBLE) {   //Scrolling up
                     AlphaAnimation animation1 = new AlphaAnimation(0, 1);
                     animation1.setDuration(250);
                     animation1.setStartOffset(0);
                     animation1.setFillAfter(true);
                     mFloatingActionButton.setAnimation(animation1);
-                    grossingLinear.setAnimation(animation1);
-                    ratedLinear.setAnimation(animation1);
-                    popularLinear.setAnimation(animation1);
                     mFloatingActionButton.setVisibility(View.VISIBLE);
-                    grossingLinear.setVisibility(View.VISIBLE);
-                    ratedLinear.setVisibility(View.VISIBLE);
-                    popularLinear.setVisibility(View.VISIBLE);
                 }
 
                 int totalItemCount = manager.getItemCount();
@@ -196,30 +193,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    private void loadBestRatedMovies() {
-//        movieList.setLayoutManager(new GridLayoutManager(getParent(), 3));
-//        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.itemOffset);
-//        movieList.addItemDecoration(itemDecoration);
-//
-//        moviesRepository.getBestRatedMovies(new OnGetMoviesCallback() {
-//            @Override
-//            public void onSuccess(int page, List<Movie> movies) {
-//                mAdapter = new MovieAdapter(movies, getApplicationContext());
-//                movieList.setAdapter(mAdapter);
-//            }
-//
-//            @Override
-//            public void onError() {
-//                Toast.makeText(MainActivity.this,
-//                        "Error Loading Movies",
-//                        Toast.LENGTH_SHORT)
-//                        .show();
-//            }
-//        });
-//
-//
-//
-//    }
+    private void loadBestRatedMovies(int page) {
+        isFetchingMovies = true;
+        moviesRepository.getBestRatedMovies(page, new OnGetMoviesCallback() {
+            @Override
+            public void onSuccess(int page, List<Movie> movies) {
+                if (mAdapter == null) {
+                    mAdapter = new MovieAdapter(movies, getApplicationContext());
+                    movieList.setAdapter(mAdapter);
+                }
+                else {
+                    mAdapter.appendMovies(movies);
+                }
+                currentPage = page;
+                isFetchingMovies = false;
+
+            }
+
+            @Override
+            public void onError() {
+                Toast.makeText(MainActivity.this,
+                        "Error Loading Movies",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+    }
 
     private void loadPopularMovies(int page) {
         isFetchingMovies = true;
@@ -246,47 +245,33 @@ public class MainActivity extends AppCompatActivity {
                         .show();
             }
         });
-
-
-
     }
 
-//    private void loadHighestGrossingMovies() {
-//        movieList.setLayoutManager(new GridLayoutManager(getParent(), 3));
-//        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.itemOffset);
-//        movieList.addItemDecoration(itemDecoration);
-//
-//        moviesRepository.getHighestGrossing(1, new OnGetMoviesCallback() {
-//            @Override
-//            public void onSuccess(List<Movie> movies) {
-//                mAdapter = new MovieAdapter(movies, getApplicationContext());
-//                movieList.setAdapter(mAdapter);
-//            }
-//
-//            @Override
-//            public void onError() {
-//                Toast.makeText(MainActivity.this,
-//                        "Error Loading Movies",
-//                        Toast.LENGTH_SHORT)
-//                        .show();
-//            }
-//        });
-//
-//    }
+    private void loadHighestGrossingMovies(int page) {
+        isFetchingMovies = true;
+        moviesRepository.getHighestGrossing(page, new OnGetMoviesCallback() {
+            @Override
+            public void onSuccess(int page, List<Movie> movies) {
+                if (mAdapter == null) {
+                    mAdapter = new MovieAdapter(movies, getApplicationContext());
+                    movieList.setAdapter(mAdapter);
+                }
+                else {
+                    mAdapter.appendMovies(movies);
+                }
+                currentPage = page;
+                isFetchingMovies = false;
 
-//    static class MoviesAsync extends AsyncTask<Void, Void, Void> {
-//
-//
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//            loadMovies();
-//            return null;
-//        }
-//    }
+            }
+
+            @Override
+            public void onError() {
+                Toast.makeText(MainActivity.this,
+                        "Error Loading Movies",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+    }
+
 }

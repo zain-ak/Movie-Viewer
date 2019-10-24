@@ -39,32 +39,32 @@ public class MoviesRepository {
         return repository;
     }
 
-//    public void getBestRatedMovies(final OnGetMoviesCallback callback) {
-//        api.getBestRated("eecdd7e4d2f0d8a98f7b97e561b0eb1c", LANGUAGE, 1)
-//                .enqueue(new Callback<MovieResponse>() {
-//                    @Override
-//                    public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
-//                        if (response.isSuccessful()) {
-//                            MovieResponse moviesResponse = response.body();
-//                            if (moviesResponse != null && moviesResponse.getResults() != null) {
-//                                callback.onSuccess(moviesResponse.getResults());
-//                            } else {
-//                                callback.onError();
-//                            }
-//                        } else {
-//                            callback.onError();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<MovieResponse> call, Throwable t) {
-//                        callback.onError();
-//                    }
-//
-//
-//
-//        });
-//    }
+    public void getBestRatedMovies(int page, final OnGetMoviesCallback callback) {
+        api.getBestRated("eecdd7e4d2f0d8a98f7b97e561b0eb1c", LANGUAGE, page)
+                .enqueue(new Callback<MovieResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
+                        if (response.isSuccessful()) {
+                            MovieResponse moviesResponse = response.body();
+                            if (moviesResponse != null && moviesResponse.getResults() != null) {
+                                callback.onSuccess(moviesResponse.getPage(), moviesResponse.getResults());
+                            } else {
+                                callback.onError();
+                            }
+                        } else {
+                            callback.onError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MovieResponse> call, Throwable t) {
+                        callback.onError();
+                    }
+
+
+
+        });
+    }
 
     public void getPopularMovies(int page, final OnGetMoviesCallback callback) {
         api.getPopularMovies("eecdd7e4d2f0d8a98f7b97e561b0eb1c", LANGUAGE, page)
@@ -93,31 +93,28 @@ public class MoviesRepository {
                 });
     }
 
-//    public void getHighestGrossing(final OnGetMoviesCallback callback) {
-//        api.getHighestGrossing("eecdd7e4d2f0d8a98f7b97e561b0eb1c", LANGUAGE, 1)
-//                .enqueue(new Callback<MovieResponse>() {
-//                    @Override
-//                    public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
-//                        if (response.isSuccessful()) {
-//                            MovieResponse moviesResponse = response.body();
-//                            if (moviesResponse != null && moviesResponse.getResults() != null) {
-//                                callback.onSuccess(moviesResponse.getResults());
-//                            } else {
-//                                callback.onError();
-//                            }
-//                        } else {
-//                            callback.onError();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<MovieResponse> call, Throwable t) {
-//                        callback.onError();
-//                    }
-//
-//
-//
-//                });
-//    }
+    public void getHighestGrossing(int page, final OnGetMoviesCallback callback) {
+        api.getHighestGrossing("eecdd7e4d2f0d8a98f7b97e561b0eb1c", LANGUAGE, page)
+                .enqueue(new Callback<MovieResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
+                        if (response.isSuccessful()) {
+                            MovieResponse moviesResponse = response.body();
+                            if (moviesResponse != null && moviesResponse.getResults() != null) {
+                                callback.onSuccess(moviesResponse.getPage(), moviesResponse.getResults());
+                            } else {
+                                callback.onError();
+                            }
+                        } else {
+                            callback.onError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MovieResponse> call, Throwable t) {
+                        callback.onError();
+                    }
+                });
+    }
 
 }
