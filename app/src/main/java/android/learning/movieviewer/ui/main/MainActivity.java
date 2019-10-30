@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void switchContent(int id, Fragment frag) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.item_animation_fade_in_right, 0);
+        ft.setCustomAnimations(R.anim.fragment_item_animation_slide_from_bottom, 0);
         ft.replace(id, frag, frag.toString());
         ft.addToBackStack(null);
         movieFragContainer.setVisibility(View.VISIBLE);
