@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout ratedLinear = null;
     private LinearLayout popularLinear = null;
     private LinearLayout grossingLinear = null;
+    private ConstraintLayout movieFragContainer = null;
     private boolean isFABOpen = false;
 
     private GridLayoutManager manager = null;
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        movieFragContainer = findViewById(R.id.movieFragmentContainer);
 
         //Setup RecyclerView
         movieList = findViewById(R.id.movieListHome);
@@ -277,10 +278,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchContent(int id, Fragment frag) {
-
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.item_animation_fade_in_right, 0);
         ft.replace(id, frag, frag.toString());
         ft.addToBackStack(null);
+        movieFragContainer.setVisibility(View.VISIBLE);
         ft.commit();
     }
 }

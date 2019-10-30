@@ -97,7 +97,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Bundle mBundle = new Bundle();
         mBundle.putParcelable("movie_item", m);
         movieFragment.setArguments(mBundle);
-        switchContent(R.id.movieFragment, movieFragment);
+        switchContent(R.id.movieFragmentContainer, movieFragment);
     }
 
     private void switchContent(int id, MovieFragment movieFragment) {
