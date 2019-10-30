@@ -1,9 +1,14 @@
 package android.learning.movieviewer.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Movie {
+import java.text.ParseException;
+
+public class Movie implements Parcelable {
 
     @SerializedName("id") @Expose
     private String id;
@@ -29,6 +34,44 @@ public class Movie {
     @SerializedName("vote_average") @Expose
     private String rating;
 
+    public Movie(Parcel parcel) {
+        id = parcel.readString();
+        name  = parcel.readString();
+        description = parcel.readString();
+        posterImageURL = parcel.readString();
+        imdbID = parcel.readString();
+        releaseDate = parcel.readString();
+        runtime = parcel.readString();
+        rating = parcel.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(name);
+        parcel.writeString(description);
+        parcel.writeString(posterImageURL);
+        parcel.writeString(imdbID);
+        parcel.writeString(releaseDate);
+        parcel.writeString(runtime);
+        parcel.writeString(rating);
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel parcel) {
+            return new Movie(parcel);
+        }
+
+        @Override
+        public Movie[] newArray(int i) {
+            return new Movie[i];
+        }
+    };
 
     public Movie(String id, String name, String description, String posterImageURL, String imdbID,
                  String releaseDate, String runtime, String rating) {

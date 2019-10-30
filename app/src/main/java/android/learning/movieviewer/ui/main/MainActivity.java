@@ -3,6 +3,8 @@ package android.learning.movieviewer.ui.main;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -194,14 +196,13 @@ public class MainActivity extends AppCompatActivity {
         grossingLinear.setVisibility(View.VISIBLE);
     }
 
-
     private void loadBestRatedMovies(int page) {
         isFetchingMovies = true;
         moviesRepository.getBestRatedMovies(page, new OnGetMoviesCallback() {
             @Override
             public void onSuccess(int page, List<Movie> movies) {
                 if (mAdapter == null) {
-                    mAdapter = new MovieAdapter(movies, getApplicationContext());
+                    mAdapter = new MovieAdapter(movies, getParent());
                     movieList.setAdapter(mAdapter);
                 }
                 else {
@@ -227,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int page, List<Movie> movies) {
                 if (mAdapter == null) {
-                    mAdapter = new MovieAdapter(movies, getApplicationContext());
+                    mAdapter = new MovieAdapter(movies, getParent());
                     movieList.setAdapter(mAdapter);
                 }
                 else {
@@ -254,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int page, List<Movie> movies) {
                 if (mAdapter == null) {
-                    mAdapter = new MovieAdapter(movies, getApplicationContext());
+                    mAdapter = new MovieAdapter(movies, getParent());
                     movieList.setAdapter(mAdapter);
                 }
                 else {
@@ -275,4 +276,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void switchContent(int id, Fragment frag) {
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(id, frag, frag.toString());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 }

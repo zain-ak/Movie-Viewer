@@ -3,22 +3,28 @@ package android.learning.movieviewer.adapter;
 import android.content.Context;
 import android.learning.movieviewer.R;
 import android.learning.movieviewer.data.model.Movie;
+import android.learning.movieviewer.ui.main.MainActivity;
+import android.learning.movieviewer.ui.main.MovieFragment;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private final Context context;
+    private Context context;
     private List<Movie> movies;
 
     static class MovieViewHolder extends RecyclerView.ViewHolder {
@@ -52,7 +58,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     public MovieAdapter(List<Movie> movies, Context context) {
-        this.context = context;
         this.movies = movies;
     }
 
@@ -61,11 +66,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public MovieAdapter.MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.movie_list_item, parent, false);
+        this.context = parent.getContext();
         return new MovieViewHolder(view, context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
+        final Movie m = movies.get(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentJump(m);
+            }
+        });
         holder.bind(movies.get(position));
     }
 
@@ -77,6 +90,23 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public void appendMovies(List<Movie> moviesToAppend) {
         movies.addAll(moviesToAppend);
         notifyDataSetChanged();
+    }
+
+    private void fragmentJump(Movie m) {
+        MovieFragment movieFragment = new MovieFragment();
+        Bundle mBundle = new Bundle();
+        mBundle.putParcelable("movie_item", m);
+        movieFragment.setArguments(mBundle);
+        switchContent(R.id.movieFragment, movieFragment);
+    }
+
+    private void switchContent(int id, MovieFragment movieFragment) {
+        if (context == null) { return; }
+        else if (context instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) context;
+            Fragment frag = movieFragment;
+            mainActivity.switchContent(id, frag);
+        }
     }
 
 }
