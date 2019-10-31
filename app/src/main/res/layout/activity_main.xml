@@ -170,9 +170,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/movieFragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="invisible"
         tools:visibility="invisible"
-        android:layout_gravity="bottom"/>
+        app:layout_anchor="@id/fab_sort_by"
+        app:layout_anchorGravity="center|bottom"
+        android:layout_marginTop="128dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
