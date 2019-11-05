@@ -1,6 +1,6 @@
 # Coco Movie Viewer (Android)
 ### Demo
-<img src='demo.gif' height=150/>
+<img src='demo.gif' height=300/>
 
 ### Intro
 
