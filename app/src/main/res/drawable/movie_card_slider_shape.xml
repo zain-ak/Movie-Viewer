@@ -12,13 +12,13 @@
         android:type="linear"
         android:angle="0"
         android:centerX="0.9"
-        android:centerColor="@color/colorPrimaryDark"
-        android:startColor="@color/colorSecondaryDark"
-        android:endColor="@color/colorPrimary"/>
+        android:centerColor="#FCFF00"
+        android:startColor="@color/colorPrimary"
+        android:endColor="#FCFF00"/>
 
     <size
         android:width="128dp"
-        android:height="5dp" />
+        android:height="4dp" />
 
     <padding
         android:bottom="5dp" />
